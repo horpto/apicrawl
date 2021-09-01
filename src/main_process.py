@@ -23,6 +23,8 @@ def describe_arg_parser():
 
 class MainProcess:
 
+    COMMENT_PREFIX = '#'
+
     def __init__(self, args):
         self.input_stream = args.input_stream
         self.init_output_stream()
@@ -34,6 +36,10 @@ class MainProcess:
         async with aiohttp.ClientSession() as session:
             with self.input_stream:
                 for line in self.input_stream:
+                    line = self.parse_line(line)
+                    if not line:
+                        continue
+
                     logger.debug('Processing line:', line)
                     async with session.get(line) as resp:
                         print(line, resp.status, file=self.output_stream)
@@ -41,3 +47,9 @@ class MainProcess:
                 logger.info('All processed')
             logger.debug('Input closed', self.input_stream)
         logger.info("That's all, folks")
+
+    def parse_line(self, line):
+        trim_line = line.strip()
+        if trim_line.startswith(self.COMMENT_PREFIX):
+            return ""
+        return trim_line
