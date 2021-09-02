@@ -1,6 +1,6 @@
 import asyncio
 
-from main_process import MainProcess, describe_arg_parser
+from .cli import MainProcess, describe_arg_parser
 
 
 def main():
