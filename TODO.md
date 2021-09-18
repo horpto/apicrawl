@@ -2,7 +2,11 @@ what's worth adding:
 
 - retries
 - timeouts
+- rate limit
+- number of threads
 - method
+- get methods from line
+- cache of url
 - multiprocess pool
 - format output
 - output to file
@@ -15,3 +19,4 @@ what's worth adding:
 - site
 - common url
 - add headers
+- linting
