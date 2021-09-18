@@ -3,6 +3,7 @@ import logging
 import sys
 
 import aiohttp
+from aiohttp import hdrs
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,12 @@ def describe_arg_parser():
         '--debug', action='store_true',
        help='Enable debug mode',
     )
+    parser.add_argument(
+        '-m', '--method',
+        type=lambda x: x.upper(),
+        choices=hdrs.METH_ALL,
+        help='One of the HTTP methods',
+    )
     return parser
 
 
@@ -27,6 +34,7 @@ class MainProcess:
 
     def __init__(self, args):
         self.input_stream = args.input_stream
+        self.method = args.method
         self.init_output_stream()
 
     def init_output_stream(self):
@@ -41,7 +49,7 @@ class MainProcess:
                         continue
 
                     logger.debug('Processing line:', line)
-                    async with session.get(line) as resp:
+                    async with session.request(self.method, line) as resp:
                         print(line, resp.status, file=self.output_stream)
                         print(await resp.text(), file=self.output_stream)
                 logger.info('All processed')

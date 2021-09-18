@@ -4,7 +4,7 @@ what's worth adding:
 - timeouts
 - rate limit
 - number of threads
-- method
++ method
 - get methods from line
 - cache of url
 - multiprocess pool
