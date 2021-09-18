@@ -5,7 +5,7 @@ what's worth adding:
 - rate limit
 - number of threads
 + method
-- get methods from line
++ get methods from line
 - cache of url
 - multiprocess pool
 - format output
@@ -15,7 +15,7 @@ what's worth adding:
 - cookies
 - setup.py
 - pypi
-- add readme
++ add readme
 - site
 - common url
 - add headers

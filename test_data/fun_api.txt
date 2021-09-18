@@ -7,3 +7,4 @@ https://api.thecatapi.com/v1/images/search?category_ids=1
 #https://pokeapi.co/api/v2/pokemon/charizard
 
 http://httpbin.org/get
+PoSt http://httpbin.org/post

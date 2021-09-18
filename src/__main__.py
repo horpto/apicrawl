@@ -8,9 +8,7 @@ def main():
     args = parser.parse_args()
 
     main_proc = MainProcess(args)
-
-    start_task = main_proc.start()
-    asyncio.run(start_task, debug=args.debug)
+    asyncio.run(main_proc.start(), debug=args.debug)
 
 
 main()
