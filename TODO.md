@@ -17,6 +17,6 @@ what's worth adding:
 - pypi
 + add readme
 - site
-- common url
++ common url
 - add headers
 - linting

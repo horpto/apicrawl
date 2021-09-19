@@ -8,3 +8,6 @@ https://api.thecatapi.com/v1/images/search?category_ids=1
 
 http://httpbin.org/get
 PoSt http://httpbin.org/post
+
+
+GET /get
