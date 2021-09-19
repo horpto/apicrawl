@@ -26,6 +26,12 @@ def describe_arg_parser():
         default=hdrs.METH_GET,
         help='One of the HTTP methods',
     )
+    parser.add_argument(
+        '-t', '--timeout',
+        type=float,
+        default=300,
+        help='Timeout for the one request (0 for disabling)',
+    )
     return parser
 
 
@@ -36,22 +42,32 @@ class MainProcess:
     def __init__(self, args):
         self.input_stream = args.input_stream
         self.method = args.method
-        self.init_output_stream()
+        self.output_stream = self.get_output_stream(args)
+        self.session = self.get_session(args)
 
-    def init_output_stream(self):
-        self.output_stream = sys.stdout
+    def get_output_stream(self, args):
+        return sys.stdout
+
+    def get_timeout(self, args):
+        return aiohttp.ClientTimeout(total=args.timeout)
+
+    def get_session(self, args):
+        timeout = self.get_timeout(args)
+        return aiohttp.ClientSession(timeout=timeout)
+
+    def send_request(self, method, url):
+        return self.session.request(method, url)
 
     async def start(self):
-        session = aiohttp.ClientSession()
         with self.input_stream:
-            async with session:
+            async with self.session:
                 for line in self.input_stream:
                     method, line = self.parse_line(line)
                     if not line:
                         continue
 
                     logger.debug('Processing line: %s %s', method, line)
-                    async with session.request(method, line) as resp:
+                    async with self.send_request(method, line) as resp:
                         print(line, resp.status, file=self.output_stream)
                         print(await resp.text(), file=self.output_stream)
             logger.info('All processed')

@@ -1,7 +1,7 @@
 what's worth adding:
 
 - retries
-- timeouts
++ timeouts
 - rate limit
 - number of threads
 + method
